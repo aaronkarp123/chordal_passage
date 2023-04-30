@@ -135,8 +135,6 @@ for i in range(len(connections)):
 	if dic['source'] not in ids:
 		print("Missing source:", dic['source'])
 
-connections = [dict(s) for s in set(frozenset(d.items()) for d in connections)]
-
 
 combined = {'nodes':chords, 'links':connections}
 
