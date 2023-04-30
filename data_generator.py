@@ -122,7 +122,7 @@ for i in range(12):
 			name2 += '/' + str(num)
 		connections.append({'source':name1, 'target':name2, 'value':edge[2]})
 
-#chords = list({v['id']:v for v in chords}.values())
+chords = list({v['id']:v for v in chords}.values())
 connections = [dict(s) for s in set(frozenset(d.items()) for d in connections)]
 
 ids = [v['id'] for v in chords]
