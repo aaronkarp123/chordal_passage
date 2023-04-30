@@ -86,6 +86,11 @@ for roman, vals in roman_chords.items():
 chords = []
 connections = []
 
+def equivalents(chord):
+	if chord contains 'Gb':
+		chord = chord.replace('Gb', 'F#')
+	return chord
+
 for i in range(12):
 	print(i)
 	for roman, c in major_base_chords.items():
@@ -116,15 +121,14 @@ for i in range(12):
 		if '/' in edge[0]:
 			num = int(edge[0].split('/')[1])
 			name1 += '/' + str(num)
+		name1 = equivalents(name1)
 		c2 = major_base_chords[edge[1]]
 		c2.transpose(i)
 		name2 = str(c2)
 		if '/' in edge[1]:
 			num = int(edge[1].split('/')[1])
 			name2 += '/' + str(num)
-		if name1 == 'Gb9' or name2 == 'Gb9':
-			print(c1, name1, c2, name2, edge)
-			continue
+		name2 = equivalents(name2)
 		connections.append({'source':name1, 'target':name2, 'value':edge[2]})
 
 chords = list({v['id']:v for v in chords}.values())
