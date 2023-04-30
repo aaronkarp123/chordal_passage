@@ -112,6 +112,7 @@ for i in range(12):
 			while num > 0:
 				notes.append(notes.pop(0))
 				num -= 1
+		name = equivalents(name)
 		chords.append({'id':name, 'notes':notes})
 
 	for edge in roman_connections:
