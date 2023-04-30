@@ -122,6 +122,9 @@ for i in range(12):
 		if '/' in edge[1]:
 			num = int(edge[1].split('/')[1])
 			name2 += '/' + str(num)
+		if name1 == 'Gb9' or name2 == 'Gb9':
+			print(c1, name1, c2, name2, edge)
+			continue
 		connections.append({'source':name1, 'target':name2, 'value':edge[2]})
 
 chords = list({v['id']:v for v in chords}.values())

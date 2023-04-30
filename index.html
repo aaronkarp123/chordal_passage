@@ -13,7 +13,7 @@
   <script>
     const Graph = ForceGraph3D()
       (document.getElementById('3d-graph'))
-        .jsonUrl('combined.json')
+        .jsonUrl('https://raw.githubusercontent.com/aaronkarp123/chordal_passage/main/combined.json')
         .nodeThreeObject(node => {
           const sprite = new SpriteText(node.id);
           sprite.material.depthWrite = false; // make sprite background transparent
