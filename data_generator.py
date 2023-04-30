@@ -69,15 +69,13 @@ roman_connections = [
 	['IVm7', 'I', 8],
 	['bII7', 'I', 8],
 	['IV', 'I', 12],
-	['I', 'V', 10]
+	['I', 'V', 10],
+	['iim', 'I/5', 10],
+	['bVI7', 'I/5', 8],
+	['bVII9', 'I/5', 8],
+	['#IVm7b5', 'I/5', 8],
+	['I/5', 'V', 10],
 ]
-
-
-	#['iim', 'I/5', 10],
-	#['bVI7', 'I/5', 8],
-	#['bVII9', 'I/5', 8],
-	#['#IVm7b5', 'I/5', 8],
-	#['I/5', 'V', 10],
 
 roman_connections = [list(x) for x in set(tuple(x) for x in roman_connections)]
 
@@ -91,7 +89,7 @@ connections = []
 for i in range(12):
 	print(i)
 	for roman, c in major_base_chords.items():
-		c.transpose(i)
+		c.transpose(1)
 		name = str(c)
 		notes = c.components()
 		if '/' in roman:
@@ -113,21 +111,32 @@ for i in range(12):
 
 	for edge in roman_connections:
 		c1 = major_base_chords[edge[0]]
-		c1.transpose(i)
 		name1 = str(c1)
 		if '/' in edge[0]:
 			num = int(edge[0].split('/')[1])
 			name1 += '/' + str(num)
 		c2 = major_base_chords[edge[1]]
-		c2.transpose(i)
 		name2 = str(c2)
 		if '/' in edge[1]:
 			num = int(edge[1].split('/')[1])
 			name2 += '/' + str(num)
 		connections.append({'source':name1, 'target':name2, 'value':edge[2]})
 
-chords = list({v['id']:v for v in chords}.values())
+#chords = list({v['id']:v for v in chords}.values())
 connections = [dict(s) for s in set(frozenset(d.items()) for d in connections)]
+
+ids = [v['id'] for v in chords]
+print(ids)
+
+for i in range(len(connections)):
+	dic = connections[i]
+	if dic['target'] not in ids:
+		print("Missing target:", dic['target'])
+	if dic['source'] not in ids:
+		print("Missing source:", dic['source'])
+
+connections = [dict(s) for s in set(frozenset(d.items()) for d in connections)]
+
 
 combined = {'nodes':chords, 'links':connections}
 
