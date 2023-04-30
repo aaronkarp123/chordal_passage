@@ -66,16 +66,18 @@ roman_connections = [
 	['VI', 'iim', 8],
 	['#Idim7', 'iim', 5],
 	['vim', 'iim', 10],
-	['iim', 'I/5', 10],
-	['bVI7', 'I/5', 8],
-	['bVII9', 'I/5', 8],
-	['#IVm7b5', 'I/5', 8],
-	['I/5', 'V', 10],
 	['IVm7', 'I', 8],
 	['bII7', 'I', 8],
 	['IV', 'I', 12],
 	['I', 'V', 10]
 ]
+
+
+	#['iim', 'I/5', 10],
+	#['bVI7', 'I/5', 8],
+	#['bVII9', 'I/5', 8],
+	#['#IVm7b5', 'I/5', 8],
+	#['I/5', 'V', 10],
 
 roman_connections = [list(x) for x in set(tuple(x) for x in roman_connections)]
 
@@ -85,11 +87,6 @@ for roman, vals in roman_chords.items():
 
 chords = []
 connections = []
-
-def equivalents(chord):
-	if 'Gb' in chord:
-		chord = chord.replace('Gb', 'F#')
-	return chord
 
 for i in range(12):
 	print(i)
@@ -112,7 +109,6 @@ for i in range(12):
 			while num > 0:
 				notes.append(notes.pop(0))
 				num -= 1
-		name = equivalents(name)
 		chords.append({'id':name, 'notes':notes})
 
 	for edge in roman_connections:
@@ -122,14 +118,12 @@ for i in range(12):
 		if '/' in edge[0]:
 			num = int(edge[0].split('/')[1])
 			name1 += '/' + str(num)
-		name1 = equivalents(name1)
 		c2 = major_base_chords[edge[1]]
 		c2.transpose(i)
 		name2 = str(c2)
 		if '/' in edge[1]:
 			num = int(edge[1].split('/')[1])
 			name2 += '/' + str(num)
-		name2 = equivalents(name2)
 		connections.append({'source':name1, 'target':name2, 'value':edge[2]})
 
 chords = list({v['id']:v for v in chords}.values())
