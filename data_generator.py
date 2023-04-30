@@ -87,7 +87,7 @@ chords = []
 connections = []
 
 def equivalents(chord):
-	if chord contains 'Gb':
+	if 'Gb' in chord:
 		chord = chord.replace('Gb', 'F#')
 	return chord
 
