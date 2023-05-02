@@ -114,7 +114,7 @@ for i in range(12):
 			inv = roman.split('/')[1]
 			notes = invert(notes, inv)
 			name += '/' + inv
-		chords.append({'id':name, 'notes':notes})
+		chords.append({'id':name, 'notes':notes, 'mode':'Major'})
 
 	for edge in major_roman_connections:
 		c1 = major_base_chords[edge[0]]
@@ -127,7 +127,7 @@ for i in range(12):
 		if '/' in edge[1]:
 			num = edge[1].split('/')[1]
 			name2 += '/' + inv
-		connections.append({'source':name1, 'target':name2, 'value':edge[2]})
+		connections.append({'source':name1, 'target':name2, 'value':edge[2], 'mode':'Major'})
 
 chords = list({v['id']:v for v in chords}.values())
 connections = [dict(s) for s in set(frozenset(d.items()) for d in connections)]
