@@ -3,7 +3,7 @@ import json
 
 keys = ['Cmaj', 'Dmaj']
 
-roman_chords = {
+major_roman_chords = {
 	'I': [1, ''],
 	'IIIm7b5': [3, 'm7b5'],
 	'#Idim7': [1, '#dim7'],
@@ -28,11 +28,11 @@ roman_chords = {
 	'IVm7': [4, 'm7'],
 	'bII7': [2, 'b7'],
 	'bVII9': [7, 'b9'],
-	'I/3': [1, ''],
-	'I/5': [1, '']
+	'I/6': [1, ''],
+	'I/64': [1, '']
 	}
 
-roman_connections = [
+major_roman_connections = [
 	['IIIm7b5', 'VI', 5],
 	['VI', 'iim', 8],
 	['#Idim7', 'iim', 5],
@@ -52,8 +52,8 @@ roman_connections = [
 	['iiim', 'vim', 10],
 	['iiim', 'IV', 10],
 	['IV', 'iim', 10],
-	['IV', 'I/3', 8],
-	['I/3', 'iim', 8],
+	['IV', 'I/6', 8],
+	['I/6', 'iim', 8],
 	['IV', 'V', 15],
 	['V', 'I', 20],
 	['II', 'V', 8],
@@ -70,21 +70,29 @@ roman_connections = [
 	['bII7', 'I', 8],
 	['IV', 'I', 12],
 	['I', 'V', 10],
-	['iim', 'I/5', 10],
-	['bVI7', 'I/5', 8],
-	['bVII9', 'I/5', 8],
-	['#IVm7b5', 'I/5', 8],
-	['I/5', 'V', 10],
+	['iim', 'I/64', 10],
+	['bVI7', 'I/64', 8],
+	['bVII9', 'I/64', 8],
+	['#IVm7b5', 'I/64', 8],
+	['I/64', 'V', 10],
 ]
 
-roman_connections = [list(x) for x in set(tuple(x) for x in roman_connections)]
+major_roman_connections = [list(x) for x in set(tuple(x) for x in major_roman_connections)]
 
 major_base_chords = {}
-for roman, vals in roman_chords.items():
+for roman, vals in major_roman_chords.items():
 	major_base_chords[roman] = Chord.from_note_index(note=vals[0], quality=vals[1], scale='Cmaj')
 
 chords = []
 connections = []
+
+def invert(notes, inversion):
+	if inversion == '6':
+		notes.append(notes.pop(0))
+	elif inversion == '64':
+		notes.append(notes.pop(0))
+		notes.append(notes.pop(0))
+	return notes
 
 for i in range(12):
 	print(i)
@@ -93,33 +101,22 @@ for i in range(12):
 		name = str(c)
 		notes = c.components()
 		if '/' in roman:
-			num = int(roman.split('/')[1])
-			name += '/' + str(num)
-			if num == 3:
-				num = 1
-			elif num == 5:
-				num = 2
-			elif num ==7:
-				num = 3
-			else:
-				print(" ---- UNRECOGNIZED INVERSION ---- ")
-
-			while num > 0:
-				notes.append(notes.pop(0))
-				num -= 1
+			inv = roman.split('/')[1]
+			notes = invert(notes, inv)
+			name += '/' + inv
 		chords.append({'id':name, 'notes':notes})
 
-	for edge in roman_connections:
+	for edge in major_roman_connections:
 		c1 = major_base_chords[edge[0]]
 		name1 = str(c1)
 		if '/' in edge[0]:
-			num = int(edge[0].split('/')[1])
-			name1 += '/' + str(num)
+			inv = edge[0].split('/')[1]
+			name1 += '/' + inv
 		c2 = major_base_chords[edge[1]]
 		name2 = str(c2)
 		if '/' in edge[1]:
-			num = int(edge[1].split('/')[1])
-			name2 += '/' + str(num)
+			num = edge[1].split('/')[1]
+			name2 += '/' + inv
 		connections.append({'source':name1, 'target':name2, 'value':edge[2]})
 
 chords = list({v['id']:v for v in chords}.values())
