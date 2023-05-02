@@ -29,7 +29,11 @@ major_roman_chords = {
 	'bII7': [2, 'b7'],
 	'bVII9': [7, 'b9'],
 	'I/6': [1, ''],
-	'I/64': [1, '']
+	'I/64': [1, ''],
+	'V/64': [1, ''],
+	'Idim/6':[1, 'dim'],
+	'VIm7b5/64':[6, 'm7b5'],
+	'IV/64':[4, '']
 	}
 
 major_roman_connections = [
@@ -75,6 +79,12 @@ major_roman_connections = [
 	['bVII9', 'I/64', 8],
 	['#IVm7b5', 'I/64', 8],
 	['I/64', 'V', 10],
+	['Im6', 'V/64', 5],
+	['V/64', 'II', 5],
+	['IV/64', 'I', 8],
+	['I', 'IV/64', 8],
+	['Idim/6', 'iim', 5],
+	['VIm7b5/64', 'II', 5]
 ]
 
 major_roman_connections = [list(x) for x in set(tuple(x) for x in major_roman_connections)]
